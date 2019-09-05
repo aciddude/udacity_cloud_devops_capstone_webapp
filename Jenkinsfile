@@ -11,7 +11,7 @@ pipeline {
     stage('Test') {
       steps {
         echo 'Testing docker image'
-        sh "docker run acidd/udacity-weather-app:${env.BUILD_NUMBER} -p 8080:8080 "
+        sh "docker run -p -p 8081:8080 -d acidd/udacity-weather-app:${env.BUILD_NUMBER}  "
         sh 'curl http://localhost:8080 -vvv'
       }
     }

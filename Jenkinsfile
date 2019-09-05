@@ -18,7 +18,7 @@ pipeline {
 export isGetWeatherTrue=$(curl localhost:8081 -s  | grep "Get Weather" -c)
 export isTrue="1"
  
-if [ "$isGetWeatherTrue" == "isTrue" ]; then
+if [ "$isGetWeatherTrue" == "$isTrue" ]; then
     echo "YAY It\'s working"
 else
     echo "Booo It\'s not working"

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udacity-weather-app
+  namespace: udacity-weather-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udacity-weather-app
+  template:
+    metadata:
+      labels:
+        app: udacity-weather-app
+    spec:
+      containers:
+        - name: udacity-weather-app
+          image: aciddude/weather-app:latest
+          ports:
+            - name: web
+              containerPort: 8080
+              protocol: TCP

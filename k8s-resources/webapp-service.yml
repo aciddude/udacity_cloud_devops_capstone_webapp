@@ -1,0 +1,16 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: udacity-weather-app
+  namespace: udacity-weather-app
+  annotations:
+    service.beta.kubernetes.io/brightbox-load-balancer-healthcheck-request: /
+spec:
+  type: LoadBalancer
+  selector:
+    app: udacity-weather-app
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: web

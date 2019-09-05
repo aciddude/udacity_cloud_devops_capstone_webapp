@@ -17,6 +17,17 @@ pipeline {
       }
       steps {
         sh 'hadolint ./Dockerfile | tee -a hadolint_lint.txt'
+        sh '''
+        lintErrors=$(stat --printf="%s"  hadolint_lint.txt)
+        if [ "$lintErrors" -gt "0" ]; then
+           echo "Linting Errors, please see below"
+           cat hadolint_lint.txt
+           exit 1
+        else
+        echo "Dockerfile is valid!!"
+        fi
+        '''
+
       }
     }
     stage('Build & Tag Docker Image') {

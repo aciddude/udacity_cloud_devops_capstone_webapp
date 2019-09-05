@@ -20,6 +20,6 @@ pipeline {
     }
   }
   environment {
-    BUILDNO = '{env. BUILD_NUMBER}'
+    BUILDNO = '{env.BUILD_NUMBER}'
   }
 }

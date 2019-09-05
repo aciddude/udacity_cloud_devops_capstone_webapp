@@ -5,7 +5,6 @@ pipeline {
       steps {
         sh "echo Building.. ${env.BUILDNO}"
         sh "docker build -t acidd/udacity-weather-app:latest  -t acidd/udacity-weather-app:${env.BUILD_NUMBER} ."
-        sh 'docker image ls'
       }
     }
     stage('Test') {
@@ -31,6 +30,12 @@ pipeline {
     stage('Deploy') {
       steps {
         echo 'Deploying....'
+      }
+    }
+    stage('Clean Up') {
+      steps {
+        echo 'Removing all docker images built'
+        sh 'docker image rm "$(docker image ls  --format "{{.ID}}")" --force'
       }
     }
   }

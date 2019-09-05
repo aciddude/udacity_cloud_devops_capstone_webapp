@@ -16,7 +16,16 @@ pipeline {
 
       }
       steps {
-        sh 'hadolint ./Dockerfile | tee -a hadolint_lint.txt'
+        script {
+          try {
+            echo "Running hadolint"
+            sh 'hadolint ./Dockerfile | tee -a hadolint_lint.txt'
+          } catch (err) {
+            echo err.getMessage()
+            exit 1
+          }
+        }
+
       }
     }
     stage('Build & Tag Docker Image') {

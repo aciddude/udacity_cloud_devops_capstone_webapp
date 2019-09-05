@@ -16,7 +16,7 @@ pipeline {
 
       }
       steps {
-        sh 'hadolint . | tee -a hadolint_lint.txt'
+        sh 'hadolint ./Dockerfile | tee -a hadolint_lint.txt'
       }
     }
     stage('Build & Tag Docker Image') {

@@ -1,13 +1,31 @@
 pipeline {
   agent any
   stages {
-    stage('Build') {
+    stage('Lint Dockerfile') {
+      agent {
+        docker {
+          image 'hadolint/hadolint:latest-debian'
+        }
+
+      }
+      post {
+        always {
+          archiveArtifacts 'hadolint_lint.txt'
+
+        }
+
+      }
+      steps {
+        sh 'hadolint . | tee -a hadolint_lint.txt'
+      }
+    }
+    stage('Build & Tag Docker Image') {
       steps {
         sh "echo Building.. ${env.BUILDNO}"
         sh "docker build -t acidd/udacity-weather-app:latest  -t acidd/udacity-weather-app:${env.BUILD_NUMBER} ."
       }
     }
-    stage('Test') {
+    stage('Test Docker Image') {
       steps {
         echo 'Testing docker image'
         sh "docker run -p 8081:8080 -d acidd/udacity-weather-app:${env.BUILD_NUMBER}  "

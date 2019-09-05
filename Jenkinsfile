@@ -12,8 +12,8 @@ pipeline {
       steps {
         echo 'Testing docker image'
         sh "docker run -p 8081:8080 -d acidd/udacity-weather-app:${env.BUILD_NUMBER}  "
-        sh '''
-curl localhost:8081 
+        sleep 5
+        sh '''curl localhost:8081 
 
 export isGetWeatherTrue=$(curl localhost:8081 -s  | grep "Get Weather" -c)
 export isTrue="1"

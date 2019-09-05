@@ -10,7 +10,9 @@ pipeline {
     }
     stage('Test') {
       steps {
-        echo 'Testing..'
+        echo 'Testing docker image'
+        sh "docker run acidd/udacity-weather-app:${env.BUILD_NUMBER} -p 8080:8080 "
+        sh 'curl http://localhost:8080 -vvv'
       }
     }
     stage('Deploy') {

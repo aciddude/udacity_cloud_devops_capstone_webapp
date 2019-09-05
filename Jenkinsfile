@@ -24,6 +24,7 @@ pipeline {
         exit 1
         fi
         '''
+        echo 'Stopping Docker Container'
         sh 'docker stop $(docker ps --format "{{.ID}}" )'
       }
     }

@@ -18,9 +18,10 @@ pipeline {
         isGetWeatherTrue=$(curl localhost:8081 -s  | grep "Get Weather" -c)
         isTrue="1"
         if [ "$isGetWeatherTrue" == "$isTrue" ]; then
-        echo "YAY It\'s working"
+        echo "Was able to grep for string "Get Weather" - curl passed with code 200 "
         else
-        echo "Booo It\'s not working"
+        echo "Unable to find string "Get Weather " - curl failed, exiting"
+        exit 1
         fi
         '''
         sh 'docker stop $(docker ps --format "{{.ID}}" )'

@@ -4,7 +4,8 @@ pipeline {
     stage('Build') {
       steps {
         echo 'Building..'
-        sh 'docker build .'
+        sh 'docker build -t acidd/udacity-weather-app:latest  -t acidd/udacity-weather-app:$BUILDNO .'
+        sh 'docker image ls'
       }
     }
     stage('Test') {
@@ -17,5 +18,8 @@ pipeline {
         echo 'Deploying....'
       }
     }
+  }
+  environment {
+    BUILDNO = '{env. BUILD_NUMBER}'
   }
 }

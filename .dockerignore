@@ -1,2 +1,4 @@
-node_modules
+./k8s-resources
+./node_modules
 npm-debug.log
+package-lock.json

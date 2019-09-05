@@ -12,17 +12,16 @@ pipeline {
       steps {
         echo 'Testing docker image'
         sh "docker run -p 8081:8080 -d acidd/udacity-weather-app:${env.BUILD_NUMBER}  "
+        echo 'Waiting for Docker container to start....'
         sleep 5
-        sh '''curl localhost:8081 
-
-export isGetWeatherTrue=$(curl localhost:8081 -s  | grep "Get Weather" -c)
-export isTrue="1"
- 
-if [ "$isGetWeatherTrue" == "$isTrue" ]; then
-    echo "YAY It\'s working"
-else
-    echo "Booo It\'s not working"
-fi  
+        sh '''
+        isGetWeatherTrue=$(curl localhost:8081 -s  | grep "Get Weather" -c)
+        isTrue="1"
+        if [ "$isGetWeatherTrue" == "$isTrue" ]; then
+        echo "YAY It\'s working"
+        else
+        echo "Booo It\'s not working"
+        fi
         '''
         sh 'docker stop $(docker ps --format "{{.ID}}" )'
       }

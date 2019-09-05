@@ -13,8 +13,8 @@ pipeline {
         echo 'Testing docker image'
         sh "docker run -p 8081:8080 -d acidd/udacity-weather-app:${env.BUILD_NUMBER}  "
         sh '''
-isGetWeatherTrue=$(curl localhost:8081 -s  | grep "Get Weather" -c)
-isTrue="1"
+export isGetWeatherTrue="$(curl localhost:8081 -s  | grep "Get Weather" -c)"
+export isTrue="1"
  
 if [ "$isGetWeatherTrue" == "isTrue" ]; then
     echo "YAY It\'s working"

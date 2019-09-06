@@ -85,7 +85,7 @@ pipeline {
         sh 'aws iam get-user'
         echo 'Deploying....'
         kubernetesDeploy(kubeconfigId: 'eks-config', configs: 'k8s-resources/webapp-deployment.yml')
-      }
+       }
      }
     }
     stage('Clean Up') {

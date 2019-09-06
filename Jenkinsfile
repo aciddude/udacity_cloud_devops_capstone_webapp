@@ -64,7 +64,7 @@ pipeline {
         sh 'docker stop $(docker ps --format "{{.ID}}" )'
       }
     }
-    stage('Deploy Image') {
+    stage('Push Image to DockerHub') {
       steps {
         script {
           docker.withRegistry( '', registryCredential ) {
@@ -82,7 +82,7 @@ pipeline {
     stage('Deploy') {
       steps {
         echo 'Deploying....'
-        kubernetesDeploy(kubeconfigId: 'eks-config', configs: '$WORKSPACE/k8s-resources/webapp-deployment.yml')
+        kubernetesDeploy(kubeconfigId: 'eks-config', configs: 'k8s-resources/webapp-deployment.yml')
       }
     }
     stage('Clean Up') {

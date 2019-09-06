@@ -35,6 +35,27 @@ pipeline {
         sh "docker build -t acidd/udacity-weather-app:latest  -t acidd/udacity-weather-app:${env.BUILD_NUMBER} ."
       }
     }
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $registry:$BUILD_NUMBER"
+      }
+    }
     stage('Test Docker Image') {
       steps {
         echo 'Testing docker image'
@@ -71,5 +92,8 @@ pipeline {
   }
   environment {
     BUILDNO = "${env.BUILD_NUMBER}"
+    registry = "acidd/udacity-weather-app"
+    registryCredential = 'dockerhub'
+    dockerImage = ''
   }
 }

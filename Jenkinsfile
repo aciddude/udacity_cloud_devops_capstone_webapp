@@ -36,10 +36,11 @@ pipeline {
       }
     }
     stage('Building image') {
-      steps{
+      steps {
         script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
         }
+
       }
     }
     stage('Test Docker Image') {
@@ -64,23 +65,24 @@ pipeline {
       }
     }
     stage('Deploy Image') {
-      steps{
+      steps {
         script {
           docker.withRegistry( '', registryCredential ) {
             dockerImage.push()
           }
         }
+
       }
     }
     stage('Remove Unused docker image') {
-      steps{
+      steps {
         sh "docker rmi $registry:$BUILD_NUMBER"
       }
     }
     stage('Deploy') {
       steps {
         echo 'Deploying....'
-        kubernetesDeploy(kubeconfigId: 'eks-config', configs: "$WORKSPACE/k8s-resources/webapp-deployment.yml")
+        kubernetesDeploy(kubeconfigId: 'eks-config', configs: '$WORKSPACE/k8s-resources/webapp-deployment.yml')
       }
     }
     stage('Clean Up') {
@@ -92,7 +94,7 @@ pipeline {
   }
   environment {
     BUILDNO = "${env.BUILD_NUMBER}"
-    registry = "acidd/udacity-weather-app"
+    registry = 'acidd/udacity-weather-app'
     registryCredential = 'dockerhub'
     dockerImage = ''
   }

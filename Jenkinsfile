@@ -86,7 +86,7 @@ pipeline {
           echo 'Deploying....'
           withKubeConfig(credentialsId: 'eks-config', serverUrl: 'https://55E0FA2E328E33F801D6AC2A4D55E58A.yl4.eu-west-2.eks.amazonaws.com') {
             sh '''
-               export PATH="$PATH:/usr/local/bin/" 
+               aws eks --region eu-west-2 update-kubeconfig --name capstone-stack-eks-cluster
                kubectl get nodes
           '''
           }

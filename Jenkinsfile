@@ -27,7 +27,6 @@ pipeline {
         echo "Dockerfile is valid!!"
         fi
         '''
-
       }
     }
     stage('Build & Tag Docker Image') {
@@ -48,7 +47,8 @@ pipeline {
         if [ "$isGetWeatherTrue" == "$isTrue" ]; then
         echo "Was able to grep for string "Get Weather" - curl passed with code 200 "
         else
-        echo "Unable to find string "Get Weather " - curl failed, exiting"
+        echo "Unable to find string "Get Weather " - curl failed, stopping docker container and exiting"
+        sh \'docker stop $(docker ps --format "{{.ID}}" )\'
         exit 1
         fi
         '''

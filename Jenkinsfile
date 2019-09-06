@@ -88,6 +88,10 @@ pipeline {
             sh '''
                aws eks --region eu-west-2 update-kubeconfig --name capstone-stack-eks-cluster
                kubectl get nodes
+               kubectl -n udacity-weather-app get pods
+               kubectl -n udacity-weather-app set image deployments/udacity-weather-app  acidd/udacity-weather-app:"$BUILD_NUMBER"
+               kubectl -n udacity-weather-app rollout status deployments/udacity-weather-app
+               kubectl -n udacity-weather-app get pods
           '''
           }
 

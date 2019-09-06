@@ -42,20 +42,6 @@ pipeline {
         }
       }
     }
-    stage('Deploy Image') {
-      steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
-          }
-        }
-      }
-    }
-    stage('Remove Unused docker image') {
-      steps{
-        sh "docker rmi $registry:$BUILD_NUMBER"
-      }
-    }
     stage('Test Docker Image') {
       steps {
         echo 'Testing docker image'
@@ -77,10 +63,24 @@ pipeline {
         sh 'docker stop $(docker ps --format "{{.ID}}" )'
       }
     }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $registry:$BUILD_NUMBER"
+      }
+    }
     stage('Deploy') {
       steps {
         echo 'Deploying....'
-        kubernetesDeploy(kubeconfigId: 'eks-config', configs: './k8s-resources/webapp-deployment.yaml')
+        kubernetesDeploy(kubeconfigId: 'eks-config', configs: "$WORKSPACE/k8s-resources/webapp-deployment.yaml")
       }
     }
     stage('Clean Up') {

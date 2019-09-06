@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: udacity-weather-app
-          image: aciddude/weather-app:latest
+          image: aciddude/weather-app:$BUILD_NUMBER
           ports:
             - name: web
               containerPort: 8080

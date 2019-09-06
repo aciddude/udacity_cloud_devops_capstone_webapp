@@ -81,6 +81,8 @@ pipeline {
     }
     stage('Deploy') {
       steps {
+        withAWS(credentials: 'aws-credentials', region: 'eu-west-2') {
+        sh 'aws iam get-user'
         echo 'Deploying....'
         kubernetesDeploy(kubeconfigId: 'eks-config', configs: 'k8s-resources/webapp-deployment.yml')
       }

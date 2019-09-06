@@ -59,6 +59,10 @@ pipeline {
     stage('Deploy') {
       steps {
         echo 'Deploying....'
+        withKubeConfig([credentialsId: 'eks-config', serverUrl: 'https://55E0FA2E328E33F801D6AC2A4D55E58A.yl4.eu-west-2.eks.amazonaws.com']) {
+        sh 'kubectl get nodes '
+        sh 'kubectl get ns '
+        }
       }
     }
     stage('Clean Up') {

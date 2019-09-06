@@ -80,7 +80,7 @@ pipeline {
     stage('Deploy') {
       steps {
         echo 'Deploying....'
-        kubernetesDeploy(kubeconfigId: 'eks-config', configs: "$WORKSPACE/k8s-resources/webapp-deployment.yaml")
+        kubernetesDeploy(kubeconfigId: 'eks-config', configs: "$WORKSPACE/k8s-resources/webapp-deployment.yml")
       }
     }
     stage('Clean Up') {

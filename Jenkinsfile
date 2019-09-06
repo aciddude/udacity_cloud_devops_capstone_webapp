@@ -82,11 +82,15 @@ pipeline {
     stage('Deploy') {
       steps {
         withAWS(credentials: 'aws-credentials', region: 'eu-west-2') {
-        sh 'aws iam get-user'
-        echo 'Deploying....'
-        kubernetesDeploy(kubeconfigId: 'eks-config', configs: 'k8s-resources/webapp-deployment.yml')
-       }
-     }
+          sh 'aws iam get-user'
+          echo 'Deploying....'
+          withKubeConfig(credentialsId: 'eks-config', serverUrl: 'https://55E0FA2E328E33F801D6AC2A4D55E58A.yl4.eu-west-2.eks.amazonaws.com') {
+            sh 'kubectl get nodes'
+          }
+
+        }
+
+      }
     }
     stage('Clean Up') {
       steps {
